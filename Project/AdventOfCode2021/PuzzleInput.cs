@@ -53,7 +53,7 @@ namespace AdventOfCode2021
                 mInput.Add(line);
             }
             mLinesRead = mInput.Count;
-            SBLog.LogLine("Loaded " + mLinesRead + ", SBLog.LogStreamType.StateInfo);
+            SBLog.LogLine("Loaded " + mLinesRead, SBLog.LogStreamType.StateInfo);
         }
 
         public IntInputEnumerator GetIntIter()
