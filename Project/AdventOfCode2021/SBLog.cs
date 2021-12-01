@@ -13,6 +13,7 @@ public class SBLog
         Debug,
         Default,
         Output,
+        StateInfo,
         All
     }
 
@@ -45,6 +46,7 @@ public class SBLog
                 { LogStreamType.Debug, ConsoleColor.Green},
                 { LogStreamType.Default, ConsoleColor.Cyan},
                 { LogStreamType.Output, ConsoleColor.Black},
+                { LogStreamType.StateInfo, ConsoleColor.Yellow},
                 { LogStreamType.All, ConsoleColor.Cyan},
             };
 
@@ -63,7 +65,6 @@ public class SBLog
         Get.mStreamFilter = Get.mStreamFilter.Union(filter).ToArray();
     }
 
-    //Mess with this more later
     public static void Log(string debug, LogStreamType stream = LogStreamType.Default)
     {
         ConsoleColor oldColor = Console.ForegroundColor;
@@ -90,6 +91,7 @@ public class SBLog
     {
         ConsoleColor oldFrontColor = Console.ForegroundColor;
         ConsoleColor oldBackColor = Console.BackgroundColor;
+
         if (SBLog.Get.ShouldOutput(stream))
         {
             Console.ForegroundColor = SBLog.Get.mLogColors[stream];
@@ -97,6 +99,7 @@ public class SBLog
             Console.BackgroundColor = ConsoleColor.White;
             Console.WriteLine(debug, SBLog.Get.mLogColors[stream]);
         }
+
         Console.ForegroundColor = oldFrontColor;
         Console.BackgroundColor = oldBackColor;
     }
@@ -112,7 +115,7 @@ public class SBLog
 
         public ScopedLogFilter(LogStreamType[] filter, bool append)
         {
-            mOldFilter = SBLog.mInstance.mStreamFilter;
+            mOldFilter = SBLog.Get.mStreamFilter;
 
             if (append)
                 SBLog.SetFilter(filter);

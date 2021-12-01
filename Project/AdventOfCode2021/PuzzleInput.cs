@@ -30,13 +30,15 @@ namespace AdventOfCode2021
             LoadInput(puzzleInputPath);
         }
 
-        public bool IsValid()
+        public virtual bool IsValid()
         {
             return mInput != null && mInput.Count > 0;
         }
 
         public virtual void LoadInput(string inputFile)
         {
+            SBLog.LogLine("Attempting to load: " + inputFile, SBLog.LogStreamType.StateInfo);
+
             string toOpen = mInputDir + inputFile;
             mInput = new List<string>();
             if (!System.IO.File.Exists(toOpen))
@@ -51,6 +53,7 @@ namespace AdventOfCode2021
                 mInput.Add(line);
             }
             mLinesRead = mInput.Count;
+            SBLog.LogLine("Loaded " + mLinesRead + ", SBLog.LogStreamType.StateInfo);
         }
 
         public IntInputEnumerator GetIntIter()
@@ -68,7 +71,7 @@ namespace AdventOfCode2021
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return GetEnumerator();
         }
 
         public class IntInputEnumerator : IEnumerable<int>
@@ -93,6 +96,5 @@ namespace AdventOfCode2021
                 throw new NotImplementedException();
             }
         }
-
     }
 }
