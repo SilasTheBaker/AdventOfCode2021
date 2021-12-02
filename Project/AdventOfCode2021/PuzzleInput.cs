@@ -12,7 +12,6 @@ namespace AdventOfCode2021
     {
         string mRawInput = "empty";
         List<string> mInput;
-        protected string mInputPath = "";
         protected string mInputDir = "";
 
         int mLinesRead = -1;
