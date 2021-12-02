@@ -45,6 +45,8 @@
   <ItemGroup>
     <Compile Include="DayBase.cs" />
     <Compile Include="Days\Day1.cs" />
+    <Compile Include="Days\Day2.cs" />
+    <Compile Include="Days\DayTemplate.cs" />
     <Compile Include="PuzzleInput.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

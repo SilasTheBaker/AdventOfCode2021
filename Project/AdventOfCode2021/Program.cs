@@ -13,7 +13,7 @@ namespace AdventOfCode2021
         {
             SBLog log = new SBLog(new SBLog.LogStreamType[]
             {
-                //SBLog.LogStreamType.Debug,
+                SBLog.LogStreamType.Debug,
                 SBLog.LogStreamType.Default,
                 SBLog.LogStreamType.Error,
                 //SBLog.LogStreamType.StateInfo,
@@ -81,6 +81,7 @@ namespace AdventOfCode2021
             DayBase[] days =
             {
                 new Day1(),
+                new Day2(),
             };
 
             if (day < 0)

@@ -60,6 +60,11 @@ namespace AdventOfCode2021
             return new IntInputEnumerator(this);
         }
 
+        public SplitLineEnumerator GetSplitLinesIter()
+        {
+            return new SplitLineEnumerator(this);
+        }
+
         public IEnumerator<string> GetEnumerator()
         {
             foreach (string line in mInput)
@@ -92,7 +97,30 @@ namespace AdventOfCode2021
 
             IEnumerator IEnumerable.GetEnumerator()
             {
-                throw new NotImplementedException();
+                return GetEnumerator();
+            }
+        }
+
+        public class SplitLineEnumerator : IEnumerable<string[]>
+        {
+            PuzzleInput mPuzzleInput;
+
+            public SplitLineEnumerator(PuzzleInput puzzleInput)
+            {
+                mPuzzleInput = puzzleInput;
+            }
+
+            public IEnumerator<string[]> GetEnumerator()
+            {
+                foreach (string line in mPuzzleInput.mInput)
+                {
+                    yield return line.Split(' ');
+                }
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
             }
         }
     }
