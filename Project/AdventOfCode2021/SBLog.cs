@@ -29,7 +29,7 @@ public class SBLog
     }
 
     static SBLog mInstance = null;
-    LogStreamType[] mStreamFilter;
+    List<LogStreamType> mStreamFilter;
     string mPrefix = "-    ";
     Dictionary<LogStreamType, ConsoleColor> mLogColors;
 
@@ -38,7 +38,7 @@ public class SBLog
         if (mInstance == null)
         {
             mInstance = this;
-            mStreamFilter = filter;
+            mStreamFilter = new List<LogStreamType>(filter);
 
             mLogColors = new Dictionary<LogStreamType, ConsoleColor>()
             {
@@ -57,12 +57,27 @@ public class SBLog
 
     public static void SetFilter(LogStreamType[] filter)
     {
-        Get.mStreamFilter = filter;
+        Get.mStreamFilter = new List<LogStreamType>(filter);
+    }
+
+    public static void SetFilter(LogStreamType filter)
+    {
+        Get.mStreamFilter.Clear();
+        Get.mStreamFilter.Add(filter);
+
     }
 
     public static void AppendFilter(LogStreamType[] filter)
     {
-        Get.mStreamFilter = Get.mStreamFilter.Union(filter).ToArray();
+        Get.mStreamFilter = new List<LogStreamType>(Get.mStreamFilter.Union(filter));
+    }
+
+    public static void AppendFilter(LogStreamType filter)
+    {
+        if (!Get.mStreamFilter.Contains(filter))
+        {
+            Get.mStreamFilter.Add(filter);
+        }
     }
 
     public static void Log(string debug, LogStreamType stream = LogStreamType.Default)
@@ -115,7 +130,7 @@ public class SBLog
 
         public ScopedLogFilter(LogStreamType[] filter, bool append)
         {
-            mOldFilter = SBLog.Get.mStreamFilter;
+            mOldFilter = SBLog.Get.mStreamFilter.ToArray();
 
             if (append)
                 SBLog.SetFilter(filter);
@@ -123,7 +138,17 @@ public class SBLog
                 SBLog.AppendFilter(filter);
         }
 
-        ~ScopedLogFilter()
+        public ScopedLogFilter(LogStreamType filter, bool append)
+        {
+            mOldFilter = SBLog.Get.mStreamFilter.ToArray(); ;
+
+            if (append)
+                SBLog.SetFilter(filter);
+            else
+                SBLog.AppendFilter(filter);
+        }
+
+        ~ScopedLogFilter() //TODO - fix this
         {
             SBLog.SetFilter(mOldFilter);
         }

@@ -22,6 +22,7 @@ namespace AdventOfCode2021.Days
         public Day3()
         {
             mPuzzleInputName += "Day3.txt";
+            //mPuzzleInputName += "Day3Example.txt";
         }
 
         public override bool Init()
@@ -69,7 +70,22 @@ namespace AdventOfCode2021.Days
 
                 for (int i = 0; i < line.Length; i++)
                 {
-                    mBits[line.Length - 1 - i] = (byte)(line[i] - '0'); //spooky hack
+                    mBits[i] = (byte)(line[i] - '0'); //spooky hack
+                }
+            }
+
+            public DiagnosticEntry(int size)
+            {
+                mBits = new byte[size];
+            }
+
+            public DiagnosticEntry(DiagnosticEntry other)
+            {
+                mBits = new byte[other.BitCount];
+
+                for (int i = 0; i < other.BitCount; i++)
+                {
+                    mBits[i] = (byte)other[i];
                 }
             }
 
@@ -161,22 +177,21 @@ namespace AdventOfCode2021.Days
                         }
                     }
 
-                    BitArray gammaRate = new BitArray(bitsPerEntry);
-                    BitArray epsilonRate = new BitArray(bitsPerEntry);
+                    DiagnosticEntry gammaRate = new DiagnosticEntry(bitsPerEntry);
+                    DiagnosticEntry epsilonRate = new DiagnosticEntry(bitsPerEntry);
 
-                    int lastIdx = bitsPerEntry - 1;
                     for (int i = 0; i < bitsPerEntry; i++)
                     {
-                        bool isMostlyOne = zeroCount[i] < numEntries / 2;
-                        gammaRate.Set(i, isMostlyOne);
-                        epsilonRate.Set(i, !isMostlyOne);
+                        int mostCommonBit = zeroCount[i] < numEntries / 2 ? 1 : 0;
+                        gammaRate[i] = mostCommonBit;
+                        epsilonRate[i] = mostCommonBit == 1 ? 0 : 1;
                     }
 
-                    SBLog.LogLine("Gamma Rate: " + gammaRate.ToBitString());
-                    SBLog.LogLine("Epsilon Rate: " + epsilonRate.ToBitString());
+                    SBLog.LogLine("Gamma Rate: " + gammaRate.GetInt().ToString());
+                    SBLog.LogLine("Epsilon Rate: " + epsilonRate.GetInt().ToString());
 
-                    mGammaRate = gammaRate.ToInt();
-                    mEpsilonRate = epsilonRate.ToInt();
+                    mGammaRate = gammaRate.GetInt();
+                    mEpsilonRate = epsilonRate.GetInt();
                 }
             }
 
@@ -223,11 +238,19 @@ namespace AdventOfCode2021.Days
                 for (int i = 0; i < bitsPerEntry; i++)
                 {
                     int mostCommon = GetMostCommonBit(i, validEntries);
+                    bool tie = mostCommon == 2;
+                    int toRemove = -1;
 
                     if (getMostCommon)
-                        validEntries.RemoveAll(x => x[i] != mostCommon);
+                    {
+                        toRemove = mostCommon == 1 || tie ? 0 : 1;
+                    }
                     else
-                        validEntries.RemoveAll(x => x[i] == mostCommon);
+                    {
+                        toRemove = mostCommon == 1 || tie ? 1 : 0;
+                    }
+
+                    validEntries.RemoveAll(x => x[i] == toRemove);
 
                     if (validEntries.Count == 1)
                     {
@@ -239,18 +262,28 @@ namespace AdventOfCode2021.Days
                 return null;
             }
 
+            //Returns the most common bit value - 2 if there is a tie
             int GetMostCommonBit(int index, List<DiagnosticEntry> entries)
             {
+                //SBLog.ScopedLogFilter debugFilter = new SBLog.ScopedLogFilter(new SBLog.LogStreamType[]{ SBLog.LogStreamType.Debug }, true);
                 if (entries != null && entries.Count > 0)
                 {
                     int zeroCount = 0;
                     foreach (DiagnosticEntry entry in entries)
                     {
+                        SBLog.LogLine("GetMostCommonBit() Index: " + index + " Entry: " + entry.ToBitString(), SBLog.LogStreamType.Debug);
                         if (entry[index] == 0)
                             zeroCount++;
                     }
-
-                    return zeroCount > entries.Count / 2 ? 0 : 1;
+                    
+                    SBLog.LogLine("GetMostCommonBit() zeroCount: " + zeroCount + " Entry count: " + entries.Count, SBLog.LogStreamType.Debug);
+                    
+                    if (zeroCount == entries.Count - zeroCount)
+                    {
+                        return 2; //was a tie
+                    }
+                    
+                    return zeroCount > entries.Count - zeroCount ? 0 : 1;
                 }
 
                 return -1;
