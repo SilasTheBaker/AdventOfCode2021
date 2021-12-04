@@ -13,7 +13,7 @@ namespace AdventOfCode2021
         {
             SBLog log = new SBLog(new SBLog.LogStreamType[]
             {
-                SBLog.LogStreamType.Debug,
+                //SBLog.LogStreamType.Debug,
                 SBLog.LogStreamType.Default,
                 SBLog.LogStreamType.Error,
                 //SBLog.LogStreamType.StateInfo,
@@ -28,6 +28,7 @@ namespace AdventOfCode2021
                 Console.WriteLine("No day to run found");
 
             string output = "FAILED";
+
             Console.WriteLine("=================== [Advent Of Code] ====================");
             Console.WriteLine("\n Running " + dayToRun.Name + "...\n");
 
@@ -59,30 +60,19 @@ namespace AdventOfCode2021
 
             Console.WriteLine();
             Console.WriteLine("========================= [Done] ========================");
-
+            PrintChristmasTree();
             Console.ReadLine();
-        }
-
-        static void PrintSolutionHeader(int solution)
-        {
-            Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-            Console.WriteLine("                   Running Solution " + solution + "                  ");
-            Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        }
-
-        static void PrintSeparator(string append = "")
-        {
-            Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++++++++" + append);
         }
 
         private static DayBase GetDay(int day = -1)
         {
-            
+
             DayBase[] days =
             {
                 new Day1(),
                 new Day2(),
                 new Day3(),
+                new Day4(),
             };
 
             if (day < 0)
@@ -91,7 +81,7 @@ namespace AdventOfCode2021
                 SBLog.LogLine("Using most recent day Added: " + (day + 1), SBLog.LogStreamType.StateInfo);
             }
             else
-            { 
+            {
                 day--; //Arrays start at 0
             }
 
@@ -107,5 +97,32 @@ namespace AdventOfCode2021
             }
         }
 
+        static void PrintSolutionHeader(int solution)
+        {
+            Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            Console.WriteLine("                   Running Solution " + solution + "                  ");
+            Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        }
+
+        static void PrintSeparator(string append = "")
+        {
+            Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++++++++" + append);
+        }
+
+        static void PrintChristmasTree()
+        { 
+            //TODO: better spacing and add colors
+            Console.WriteLine(@"                          .
+                       __/ \__
+                       \     /
+                       /.'o'.\
+                        .o.'.
+                       .'.'o'.
+                      o'.o.'.o.
+                     .'.o.'.'.o.
+                    .o.'.o.'.o.'.
+                       [_____]
+                        \___/ ");
+        }
     }
 }

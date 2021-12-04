@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace AdventOfCode2021.Days
 {
+    //https://adventofcode.com/2021/day/3
     class Day3 : DayBase
     {
         DiagnosticReadout mReadout;

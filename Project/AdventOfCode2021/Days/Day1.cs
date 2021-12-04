@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace AdventOfCode2021.Days
 {
+    //https://adventofcode.com/2021/day/1
     class Day1 : DayBase
     {
         int mIncreaseCount = 0;
