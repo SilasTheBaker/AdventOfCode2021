@@ -18,6 +18,11 @@ namespace AdventOfCode2021.Days
             mPuzzleInputName += "Day0.txt";
         }
 
+        public override bool Init()
+        {
+            return base.Init();
+        }
+
         public override bool RunSolution1()
         {
             return false;
