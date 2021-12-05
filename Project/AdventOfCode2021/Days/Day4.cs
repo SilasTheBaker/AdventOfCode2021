@@ -70,7 +70,6 @@ namespace AdventOfCode2021.Days
                 {
                     if (board.CallNumber(call))
                     {
-
                         //We have a bingo!
                         mWinningBoardScore = board.GetBoardScore();
                         bingoCalled = true; //Make sure the last call is finished
@@ -98,7 +97,6 @@ namespace AdventOfCode2021.Days
                     if (!board.HasBingo() && board.CallNumber(call))
                     {
                         //We have a bingo!
-                        mWinningBoardScore = board.GetBoardScore();
                         if (--losingBoards == 0)
                             break;
                     }
