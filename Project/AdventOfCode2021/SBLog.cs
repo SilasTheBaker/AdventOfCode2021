@@ -60,6 +60,11 @@ public class SBLog
         Get.mStreamFilter = new List<LogStreamType>(filter);
     }
 
+    internal static void Log(object p, LogStreamType debug)
+    {
+        throw new NotImplementedException();
+    }
+
     public static void SetFilter(LogStreamType filter)
     {
         Get.mStreamFilter.Clear();
@@ -86,7 +91,7 @@ public class SBLog
         if (SBLog.Get.ShouldOutput(stream))
         {
             Console.ForegroundColor = SBLog.Get.mLogColors[stream];
-            Console.Write(SBLog.Get.mPrefix + debug, SBLog.Get.mLogColors[stream]);
+            Console.Write(debug, SBLog.Get.mLogColors[stream]);
         }
         Console.ForegroundColor = oldColor;
     }
