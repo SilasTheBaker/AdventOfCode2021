@@ -9,7 +9,9 @@ namespace AdventOfCode2021.Days
     class Day6 : DayBase
     {
         List<LanternFish> mFish;
-        int mTotalFishCount = 0;
+        long mTotalFishCount = 0;
+        int mStartingFishCount = 0;
+        long[] mGestationStageCount;
 
         public override string Name
         {
@@ -19,6 +21,7 @@ namespace AdventOfCode2021.Days
         public Day6()
         {
             mPuzzleInputName += "Day6.txt";
+            //mPuzzleInputName += "Day6Example.txt";
         }
 
         public override bool Init()
@@ -35,11 +38,45 @@ namespace AdventOfCode2021.Days
                 mTotalFishCount++;
             }
 
+            mStartingFishCount = days.Length;
+
+            //Index for each gestation day - lazy theres a better way to do this
+            mGestationStageCount = new long[9];
+            for (int i = 0; i < 7; i++)
+            {
+                mGestationStageCount[i] = (uint)days.Count(x => x == i);
+            }
+
             return true;
         }
 
         public override bool RunSolution1()
         {
+#if true
+            int numDays = 80;
+            int currentDay = 0;
+            mTotalFishCount = mStartingFishCount;
+
+            for (int i = 0; i < numDays; i++)
+            {
+                SBLog.Log(i + " Days: ", SBLog.LogStreamType.Debug);
+                for (int j = 0; j < mGestationStageCount.Length; j++)
+                {
+                    SBLog.Log(mGestationStageCount[j] + ((j != currentDay) ? ", " : "*, "), SBLog.LogStreamType.Debug);
+                }
+                SBLog.Log("\n", SBLog.LogStreamType.Debug);
+
+                long numGivingBirth = mGestationStageCount[currentDay];
+                currentDay = ++currentDay % mGestationStageCount.Length;
+
+                //Add parent back into the loop
+                mGestationStageCount[(currentDay + 6) % mGestationStageCount.Length] += numGivingBirth;
+                mTotalFishCount += numGivingBirth;
+
+            }
+
+            return mTotalFishCount > mStartingFishCount;
+#else
             int numDaysToRun = 80;
             int gestationDays = 6;
 
@@ -60,8 +97,6 @@ namespace AdventOfCode2021.Days
                     }
                 }
 
-                if (mFish.Count % 100 == 0)
-                    SBLog.LogLine("Fish Count: " + mFish.Count);
 
                 SBLog.Log(i + " Days: ", SBLog.LogStreamType.Debug);
                 for (int j = 0; j < mFish.Count; j++)
@@ -70,13 +105,35 @@ namespace AdventOfCode2021.Days
                 }
                 SBLog.Log("\n", SBLog.LogStreamType.Debug);
             }
-
+#endif
             return true;
         }
 
         public override bool RunSolution2()
         {
-            return false;
+            int numDays = 256;
+            int currentDay = 0;
+            mTotalFishCount = mStartingFishCount;
+
+            for (int i = 0; i < numDays; i++)
+            {
+                SBLog.Log(i + " Days: ", SBLog.LogStreamType.Debug);
+                for (int j = 0; j < mGestationStageCount.Length; j++)
+                {
+                    SBLog.Log(mGestationStageCount[j] + ((j != currentDay) ? ", " : "*, "), SBLog.LogStreamType.Debug);
+                }
+                SBLog.Log("\n", SBLog.LogStreamType.Debug);
+
+                long numGivingBirth = mGestationStageCount[currentDay];
+                currentDay = ++currentDay % mGestationStageCount.Length;
+
+                //Add parent back into the loop
+                mGestationStageCount[(currentDay + 6) % mGestationStageCount.Length] += numGivingBirth;
+                mTotalFishCount += numGivingBirth;
+
+            }
+
+            return mTotalFishCount > mStartingFishCount;
         }
 
         public override string GetOutput1()
@@ -86,7 +143,7 @@ namespace AdventOfCode2021.Days
 
         public override string GetOutput2()
         {
-            return "None";
+            return mTotalFishCount.ToString();
         }
 
         class LanternFish
