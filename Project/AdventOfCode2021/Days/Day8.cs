@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace AdventOfCode2021.Days
 {
-    class Day0 : DayBase
+    class Day8 : DayBase
     {
         public override string Name
         {
-            get { return "Day 0: NOT SET"; }
+            get { return "Day 8: Seven Segment Search"; }
         }
 
-        public Day0()
+        public Day8()
         {
-            //mPuzzleInputName += "Day0.txt";
-            mPuzzleInputName += "Day0Example.txt";
+            //mPuzzleInputName += "Day8.txt";
+            mPuzzleInputName += "Day8Example.txt";
         }
 
         public override bool Init()

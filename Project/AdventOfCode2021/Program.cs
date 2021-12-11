@@ -76,6 +76,7 @@ namespace AdventOfCode2021
                 new Day5(),
                 new Day6(),
                 new Day7(),
+                new Day8(),
             };
 
             if (day < 0)

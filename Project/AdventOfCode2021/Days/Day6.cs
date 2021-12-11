@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace AdventOfCode2021.Days
 {
+    //https://adventofcode.com/2021/day/6
     class Day6 : DayBase
     {
         List<LanternFish> mFish;
