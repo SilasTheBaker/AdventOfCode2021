@@ -11,6 +11,8 @@ namespace AdventOfCode2021
     class PuzzleInput : IEnumerable<String>
     {
         string mRawInput = "empty";
+        public string Raw { get { return mRawInput; } }
+
         List<string> mInput;
         protected string mInputDir = "";
 
